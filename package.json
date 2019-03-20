@@ -1,0 +1,21 @@
+{
+  "name": "reacthapi",
+  "version": "1.0.0",
+  "description": "hapi + react + mongodb + node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": ""
+  },
+  "keywords": [
+    "react",
+    "hapi",
+    "mongo"
+  ],
+  "author": "afrida",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "save": "^2.3.3"
+  }
+}

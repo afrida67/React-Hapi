@@ -7,6 +7,7 @@ const routes = require('./routes/student');
 const server = hapi.server({
     host: 'localhost',
     port: Number(process.argv[2] || 5000),
+    routes: {cors: true}
 });
 
 mongoose.connect('mongodb://localhost:27017/studentdb', { useNewUrlParser: true }, (err) => {
@@ -17,13 +18,7 @@ mongoose.connect('mongodb://localhost:27017/studentdb', { useNewUrlParser: true 
 const init = async () => {
 
     try {
-        await server.register({
-            plugin: require('hapi-cors'),
-            options: {
-                origins: ['http://localhost:5000']
-            }
-        });
- 
+
         server.route(routes);
         await server.start();
     
