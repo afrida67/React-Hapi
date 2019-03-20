@@ -11,6 +11,7 @@
   "dependencies": {
     "bcrypt": "^3.0.5",
     "hapi": "^18.1.0",
+    "hapi-cors": "^1.0.3",
     "mongoose": "^5.4.19",
     "nodemon": "^1.18.10"
   }

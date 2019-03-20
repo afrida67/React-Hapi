@@ -1,4 +1,5 @@
 'use strict';
+
 const hapi = require('hapi');
 const mongoose = require('mongoose');
 const routes = require('./routes/student');
@@ -16,7 +17,13 @@ mongoose.connect('mongodb://localhost:27017/studentdb', { useNewUrlParser: true 
 const init = async () => {
 
     try {
-
+        await server.register({
+            plugin: require('hapi-cors'),
+            options: {
+                origins: ['http://localhost:5000']
+            }
+        });
+ 
         server.route(routes);
         await server.start();
     

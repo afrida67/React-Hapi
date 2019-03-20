@@ -10,7 +10,7 @@ module.exports = [
             handler: async (request, h) => {
                 try {
                     let student = await StudentModel.find().exec();
-                    console.log(student);
+                    return h.response(student);
           
                     } catch(err){
                         return h.response(err).code(500);
