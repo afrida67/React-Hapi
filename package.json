@@ -15,7 +15,6 @@
   "author": "afrida",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^4.1.0",
-    "save": "^2.3.3"
+    "concurrently": "^4.1.0"
   }
 }

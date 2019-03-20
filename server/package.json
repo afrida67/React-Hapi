@@ -11,6 +11,8 @@
   "dependencies": {
     "bcrypt": "^3.0.5",
     "hapi": "^18.1.0",
+    "hapi-auth-cookie": "^10.0.0",
+    "joi": "^14.3.1",
     "mongoose": "^5.4.19",
     "nodemon": "^1.18.10"
   }

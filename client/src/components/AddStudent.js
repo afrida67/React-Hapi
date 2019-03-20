@@ -59,7 +59,7 @@ import axios from 'axios';
     render() {
         return (
         <div>
-            Welcome to create student<br></br>
+            Sign Up as a new Student<br></br>
             <form onSubmit={this.onSubmit}>
             <div>
                 <label>Username: </label>
@@ -101,6 +101,7 @@ import axios from 'axios';
                 <input type="submit" value="Add Student" className="btn btn-primary" />
             </div>
             </form>
+      
         </div>
         )
   }
