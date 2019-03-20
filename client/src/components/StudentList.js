@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-
 const Student = props => (
   <tr>
       <td>{props.student.username}</td>
       <td>{props.student.name}</td>
       <td>{props.student.email}</td>
       <td>
-          <Link to={"/edit/"+props.student._id}>Edit</Link>
+          <Link to={`/edit/${props.student._id}`}>Edit</Link>
       </td>
   </tr>
 )
@@ -36,7 +35,7 @@ class StudentList extends Component {
     return (
       <div>
         <h3>Student List</h3>
-                <table className="table table-striped" style={{ marginTop: 20 }}>
+              <table className="" style={{ marginTop: 20 }}>
                     <thead>
                         <tr>
                             <th>Username</th>
@@ -48,7 +47,7 @@ class StudentList extends Component {
                     <tbody>
                         { this.studentList() }
                     </tbody>
-                </table>
+              </table>
       </div>
     )
   }

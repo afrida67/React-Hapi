@@ -32,5 +32,26 @@ module.exports = [
             }
         } 
     
-    },   
+    },  
+    //update
+    { 
+        method: 'POST', 
+        path: '/update/{id}',
+        handler: async (request, h) => { 
+            try {
+                
+                let student = await StudentModel.findById(request.params.id);
+                student.username = request.payload.username;
+                student.name = request.payload.name;
+                student.email= request.payload.email;
+                student.password = request.payload.password;
+
+                let result = await student.save();
+                return h.response(result);
+
+            } catch (err) {
+                return h.response(err).code(500);
+            }
+        }
+    }, 
 ]

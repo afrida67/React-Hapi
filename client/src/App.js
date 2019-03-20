@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import StudentList from './components/StudentList';
 import AddStudent from './components/AddStudent';
+import EditStudent from './components/EditStudent';
 
 import './App.css';
 
@@ -17,6 +18,7 @@ class App extends Component {
                 <Link to="/add">Add</Link>
               <Route path="/" exact component={StudentList} />
               <Route path="/add" exact component={AddStudent} />
+              <Route path="/edit/:id" component={EditStudent} />
         </div>
      </Router>
     );
