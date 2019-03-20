@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-
+import React, { Component } from 'react';
+import axios from 'axios';
  class AddStudent extends Component {
 
     onSubmit = this.onSubmit.bind(this);
@@ -9,7 +9,6 @@ import React, { Component } from 'react'
         name: '',
         email: '',
         password: '',
-
     }
 
     onChangeUsername = (e) => this.setState({
@@ -31,6 +30,7 @@ import React, { Component } from 'react'
 
     onSubmit(e) {
         e.preventDefault();
+
         console.log(`form submitted: 
         username ${this.state.username} 
         name: ${this.state.name}
@@ -38,6 +38,16 @@ import React, { Component } from 'react'
         pass: ${this.state.password}
         `);
 
+        const newStudent = {
+            username: this.state.username,
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password
+        };
+
+
+    axios.post('http://localhost:5000/add', newStudent)
+    .then(res => console.log(res.data));
         this.setState({
             username: '',
             name: '',

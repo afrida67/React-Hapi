@@ -4,7 +4,7 @@ export class StudentList extends Component {
   render() {
     return (
       <div>
-        Welcome to studetn list
+        Welcome to student list
       </div>
     )
   }
