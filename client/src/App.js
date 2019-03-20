@@ -12,10 +12,9 @@ class App extends Component {
      <Router>
         <div className="App">
             <h1>Student App</h1>
-            <Link to="/">List</Link>
-            <br></br>
-            <Link to="/add">Add</Link>
-
+                <Link to="/">List</Link>
+                <br></br>
+                <Link to="/add">Add</Link>
               <Route path="/" exact component={StudentList} />
               <Route path="/add" exact component={AddStudent} />
         </div>
