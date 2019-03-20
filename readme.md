@@ -1,0 +1,1 @@
+hapi + react + mongodb + node.js
