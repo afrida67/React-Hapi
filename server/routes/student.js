@@ -1,13 +1,19 @@
 'use strict';
 const joi = require('joi');
+const bcrypt = require('bcrypt');
+
 const StudentModel = require('../models/studentSchema');
 
 module.exports = [
     { 
         method: 'GET', 
         path: '/',
-         config: 
-         {
+         config: {
+            auth : {
+                strategy : 'session',
+                mode     : 'optional'
+                }
+            },
             handler: async (request, h) => {
                 try {
                     let student = await StudentModel.find().exec();
@@ -17,7 +23,6 @@ module.exports = [
                         return h.response(err).code(500);
                }
            } 
-        }
     }, 
     { 
         method: 'POST', 
@@ -34,6 +39,10 @@ module.exports = [
                     return err.isJoi ? h.response(err.details[0]).takeover() : h.response(err).takeover();
                 }
             }, 
+            auth : {
+                strategy : 'session',
+                mode     : 'optional'
+            },
         },
         handler: async (request, h) => {
              try {
@@ -51,7 +60,13 @@ module.exports = [
     { 
         method: 'POST', 
         path: '/update/{id}',
-        handler: async (request, h) => { 
+        config: {
+            auth : {
+                strategy : 'session',
+                mode     : 'optional'
+                }
+            },
+         handler: async (request, h) => { 
             try {
                 
                 let student = await StudentModel.findById(request.params.id);
@@ -82,6 +97,79 @@ module.exports = [
                 return h.response(err).code(500);
             }
         }
+    },
+     //login
+    {
+        method: 'GET',
+        path: '/login',
+        options: {
+            auth: {
+                mode: 'try'
+            },
+            plugins: {
+                'hapi-auth-cookie': {
+                    redirectTo: false
+                }
+            },
+            handler: async (request, h) => {
+
+                if (request.auth.isAuthenticated) {
+                    return h.redirect('/');     
+                }
+
+                return h.view('home');
+            }
+        }
+    },
+    {
+        method: 'POST',
+        path: '/login',
+        options: {
+            auth: {
+                mode: 'try'
+            },
+            handler: async (request, h) => {
+                let message = 'Invalid username or password';
+
+                const { username, password } = request.payload;
+                if (!username || !password) {
+                    return `Missing Password or Username`;
+                }
+                // Try to find user with given credentials
+        
+                let user = await StudentModel.findOne({
+                  username
+                });
+               // console.log(user);
+                let account = user && (await bcrypt.compareSync(password, user.password));
+
+                if (!account) {
+                    console.log(`${message}`);
+                    return `${message}`;
+                }
+
+                request.cookieAuth.set({ id: account.id });
+
+                let student = await StudentModel.find().exec();
+                return h.response(student);
+            }
+        }
+    },
+     //logout 
+    { 
+        method: 'GET', 
+        path: '/logout', 
+        config: { 
+            handler: async (request, h) => {
+                try {
+                    request.cookieAuth.clear();
+                    return h.view('home');
+
+                } catch(err){
+                    return h.response(err).code(500);
+                }
+            }
+         }
     },
 
 ]
