@@ -49,6 +49,9 @@ module.exports = [
         },
         handler: async (request, h) => {
              try {
+                let salt = bcrypt.genSaltSync(10);
+                request.payload.password = bcrypt.hashSync(request.payload.password, salt);
+
                 let student = new StudentModel(request.payload); //req body on hapi
                 let result = await student.save();
                 return h.response(result);
@@ -117,7 +120,7 @@ module.exports = [
                     return h.redirect('/');     
                 }
 
-                return h.view('home');
+               // return h.view('home');
             }
     },
     {
@@ -153,10 +156,6 @@ module.exports = [
                 expiresIn:  expiresIn
             });
                console.log(`token= ${accessToken}`);
-
-            var headers = request.headers;
-            const auth = headers['jwt'];
-            console.log(auth);
 
               return {accessToken};
             }

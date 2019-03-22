@@ -6,6 +6,7 @@ import axios from 'axios';
 
     state = {
         username: '',
+        unamError: '',
         name: '',
         email: '',
         password: '',
@@ -47,13 +48,14 @@ import axios from 'axios';
 
 
     axios.post('http://localhost:5000/add', newStudent)
-    .then(res => console.log(res.data));
+    .then(res => console.log(res.data))
+ 
         this.setState({
             username: '',
             name: '',
             email: '',
             password: ''
-        });
+        })
 
     }
     render() {
@@ -68,6 +70,7 @@ import axios from 'axios';
                     className="form-control"
                     value={this.state.username}
                     onChange={this.onChangeUsername}
+                    errorText={this.state.unamError}
                 />
             </div>
             <div>

@@ -23,10 +23,8 @@ const validate = async (decoded, request, h) => {
     const student = await StudentModel.findOne({ _id: decoded.id });
 
     if (student) {
-        console.log('jur')
-      return { isValid: true, credentials: decoded};
+      return { isValid: true, credentials: decoded };
     } else {
-        console.log('gfbvn');
       return { isValid: true };
     }
   };

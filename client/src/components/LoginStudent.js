@@ -8,6 +8,8 @@ class LoginStudent extends Component {
   state = {
       username: '',
       password: '',
+      error:'',
+      success:false
   }
 
     onChangeUsername = (e) => this.setState({
@@ -21,6 +23,7 @@ class LoginStudent extends Component {
 
   
   onSubmit(e) {
+
     e.preventDefault();
 
     console.log(`form submitted: 
@@ -28,11 +31,11 @@ class LoginStudent extends Component {
     pass: ${this.state.password}
     `);
 
-    const newStudent = {
+    const values = {
       username: this.state.username,
       password: this.state.password
   };
-  axios.post('http://localhost:5000/login', newStudent)
+  axios.post('http://localhost:5000/login', values)
   .then(res => console.log(res.data));
       this.setState({
           username: '',
