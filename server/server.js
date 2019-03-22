@@ -3,7 +3,7 @@
 const hapi = require('hapi');
 const mongoose = require('mongoose');
 const routes = require('./routes/student');
-
+const hapiauthjwt2 = require('hapi-auth-jwt2');
 const StudentModel = require('./models/studentSchema');
 
 const server = hapi.server({
@@ -17,35 +17,34 @@ mongoose.connect('mongodb://localhost:27017/studentdb', { useNewUrlParser: true 
     else { console.log(`Error in DB connection : ${err}`)}
 });
 
+// bring your own validation function
+const validate = async (decoded, request, h) => {
+
+    const student = await StudentModel.findOne({ _id: decoded.id });
+
+    if (student) {
+        console.log('jur')
+      return { isValid: true, credentials: decoded};
+    } else {
+        console.log('gfbvn');
+      return { isValid: true };
+    }
+  };
+
 const init = async () => {
 
     try {
 
-        await server.register(require('hapi-auth-cookie'));
+        await server.register(hapiauthjwt2);
 
-          server.auth.strategy('session', 'cookie', {
-            cookie: {
-                name: 'sid-example',
-                password: 'password1should2beZ32Wcharacters',
-                isSecure: false
-            },
-
-          //  redirectTo: '/login',
-    
-            validateFunc: async (request, session) => {
-
-                const account = await StudentModel.find({ _id: session.id });
-                console.log(`account: ${account}`);
-    
-                if (!account) {
-                    // Must return { valid: false } for invalid cookies
-                    return { valid: false };
-                }
-                return { valid: true, credentials: account };
-            }
-        });
-    
-        server.auth.default('session');
+        server.auth.strategy('jwt', 'jwt', {
+            key: 'secretkey23456',
+            validate: validate,
+            verifyOptions: { algorithms: ['HS256'] }
+          });
+          
+        server.auth.default('jwt');
+       
         server.route(routes);
         await server.start();
     

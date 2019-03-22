@@ -1,6 +1,9 @@
 'use strict';
 const joi = require('joi');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+const SECRET_KEY = 'secretkey23456';
 
 const StudentModel = require('../models/studentSchema');
 
@@ -10,8 +13,8 @@ module.exports = [
         path: '/',
          config: {
             auth : {
-                strategy : 'session',
-                mode     : 'optional'
+                strategy : 'jwt',
+                mode     : 'required'
                 }
             },
             handler: async (request, h) => {
@@ -40,7 +43,7 @@ module.exports = [
                 }
             }, 
             auth : {
-                strategy : 'session',
+                strategy : 'jwt',
                 mode     : 'optional'
             },
         },
@@ -62,7 +65,7 @@ module.exports = [
         path: '/update/{id}',
         config: {
             auth : {
-                strategy : 'session',
+                strategy : 'jwt',
                 mode     : 'optional'
                 }
             },
@@ -99,17 +102,14 @@ module.exports = [
         }
     },
      //login
-    {
+     {
         method: 'GET',
         path: '/login',
         options: {
-            auth: {
-                mode: 'try'
-            },
-            plugins: {
-                'hapi-auth-cookie': {
-                    redirectTo: false
-                }
+            auth : {
+                strategy : 'jwt',
+                mode     : 'optional'
+            }
             },
             handler: async (request, h) => {
 
@@ -119,22 +119,23 @@ module.exports = [
 
                 return h.view('home');
             }
-        }
     },
     {
         method: 'POST',
         path: '/login',
         options: {
             auth: {
-                mode: 'try'
+                strategy : 'jwt',
+                mode     : 'optional'
             },
             handler: async (request, h) => {
                 let message = 'Invalid username or password';
-
+           
                 const { username, password } = request.payload;
                 if (!username || !password) {
-                    return `Missing Password or Username`;
+                    return h.view('home', { message });
                 }
+
                 // Try to find user with given credentials
         
                 let user = await StudentModel.findOne({
@@ -144,18 +145,24 @@ module.exports = [
                 let account = user && (await bcrypt.compareSync(password, user.password));
 
                 if (!account) {
-                    console.log(`${message}`);
-                    return `${message}`;
+                    return h.view('home', { message });
                 }
+                //create token
+            const  expiresIn  =  24  *  60  *  60;
+            const  accessToken  =  jwt.sign({ id:  account.id }, SECRET_KEY, {
+                expiresIn:  expiresIn
+            });
+               console.log(`token= ${accessToken}`);
 
-                request.cookieAuth.set({ id: account.id });
+            var headers = request.headers;
+            const auth = headers['jwt'];
+            console.log(auth);
 
-                let student = await StudentModel.find().exec();
-                return h.response(student);
+              return {accessToken};
             }
         }
     },
-     //logout 
+    //logout 
     { 
         method: 'GET', 
         path: '/logout', 
