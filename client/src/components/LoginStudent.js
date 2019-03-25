@@ -34,11 +34,10 @@ class LoginStudent extends Component {
     username: this.state.username,
     password: this.state.password
   })
-  .then((response) => {
+  .then((res) => {
     // Set axios config to add Authorization header to every request with  token
-    console.log(response.data);
-    localStorage.setItem('authToken', response.data);
-    console.log(response.token);
+    console.log(res.data);
+    localStorage.setItem('authToken', res.data);
   
   })
   .catch((error) => {

@@ -11,22 +11,33 @@ module.exports = [
     { 
         method: 'GET', 
         path: '/',
-         config: {
+        config: {
             auth : {
                 strategy : 'jwt',
-                mode     : 'required'
+                mode     : 'optional'
                 }
-            },
-            handler: async (request, h) => {
-                try {
-                    let student = await StudentModel.find().exec();
+         },
+        handler: async (request, h) => {
+             try {
+                let student = await StudentModel.find().exec();
                     return h.response(student);
           
-                    } catch(err){
-                        return h.response(err).code(500);
-               }
-           } 
+                } catch(err){
+                     return h.response(err).code(500);
+            }
+        } 
     }, 
+    { 
+        method: 'GET', 
+        path: '/add',
+        handler: async (request, h) => {
+            try {
+                return 'hi';
+               } catch(err){
+                   return h.response(err).code(500);
+           }
+       }
+    },
     { 
         method: 'POST', 
         path: '/add',
@@ -42,6 +53,11 @@ module.exports = [
                     return err.isJoi ? h.response(err.details[0]).takeover() : h.response(err).takeover();
                 }
             }, 
+            auth : {
+                strategy : 'jwt',
+                mode     : 'required'
+                }
+
         },
         handler: async (request, h) => {
              try {
@@ -67,7 +83,7 @@ module.exports = [
                 strategy : 'jwt',
                 mode     : 'optional'
                 }
-            },
+         },
          handler: async (request, h) => { 
             try {
                 

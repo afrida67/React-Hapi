@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
  class AddStudent extends Component {
 
+
     onSubmit = this.onSubmit.bind(this);
 
     state = {
@@ -11,7 +12,20 @@ import axios from 'axios';
         email: '',
         password: '',
     }
+    componentDidMount() {
 
+        let token = localStorage.getItem('authToken');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        console.log(`authtoken ${token}`);
+
+        axios.get('http://localhost:5000/add')
+        .then(response => {
+        })
+        .catch(function(err) {
+            console.log(err)
+        });
+        
+    }
     onChangeUsername = (e) => this.setState({
         username: e.target.value
      });
@@ -45,13 +59,11 @@ import axios from 'axios';
             email: this.state.email,
             password: this.state.password
         };
+ 
 
 
-    axios.post('/add', newStudent)
-    .then(res => {
-        axios.defaults.headers.common['Authorization'] = res.token;
-        console.log(res.data);
-    })
+    axios.post('http://localhost:5000/add', newStudent)
+    .then(res => console.log(res.data));
  
         this.setState({
             username: '',
