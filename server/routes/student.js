@@ -101,21 +101,6 @@ module.exports = [
             }
         }
     }, 
-    //delete
-    { 
-        method: 'GET', 
-        path: '/delete/{id}',
-        handler: async (request, h) => { 
-            try {
-                
-                let result = await StudentModel.findByIdAndDelete(request.params.id);
-                return h.response(result);
-
-            } catch (err) {
-                return h.response(err).code(500);
-            }
-        }
-    },
      //login
      {
         method: 'GET',
@@ -131,8 +116,7 @@ module.exports = [
                 if (request.auth.isAuthenticated) {
                     return h.redirect('/');     
                 }
-
-               // return h.view('home');
+               //return error msg
             }
     },
     {
@@ -150,8 +134,6 @@ module.exports = [
                 if (!username || !password) {
                     return h.view('home', { message });
                 }
-
-                // Try to find user with given credentials
         
                 let user = await StudentModel.findOne({
                   username
@@ -168,27 +150,10 @@ module.exports = [
                 expiresIn:  expiresIn
             });
                console.log(`token= ${token}`);
-             //  localStorage.setItem('token', accessToken);
+
             return  token;
            //  return h.response({token: token}).code(201);
             }
         }
     },
-    //logout 
-    { 
-        method: 'GET', 
-        path: '/logout', 
-        config: { 
-            handler: async (request, h) => {
-                try {
-                    request.cookieAuth.clear();
-                    return h.view('home');
-
-                } catch(err){
-                    return h.response(err).code(500);
-                }
-            }
-         }
-    },
-
 ]
