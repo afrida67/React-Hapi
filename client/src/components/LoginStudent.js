@@ -6,11 +6,10 @@ class LoginStudent extends Component {
   onSubmit = this.onSubmit.bind(this);
 
   state = {
-      username: '',
-      password: '',
-      error:'',
-      success:false
+      username : '',
+      password : '',
   }
+
 
     onChangeUsername = (e) => this.setState({
       username: e.target.value
@@ -26,22 +25,28 @@ class LoginStudent extends Component {
 
     e.preventDefault();
 
-    console.log(`form submitted: 
+   /* console.log(`form submitted: 
     username ${this.state.username} 
     pass: ${this.state.password}
-    `);
+    `);*/
 
-    const values = {
-      username: this.state.username,
-      password: this.state.password
-  };
-  axios.post('http://localhost:5000/login', values)
-  .then(res => console.log(res.data));
-      this.setState({
-          username: '',
-          password: ''
-      });
+  axios.post('http://localhost:5000/login', { 
+    username: this.state.username,
+    password: this.state.password
+  })
+  .then((response) => {
+    // Set axios config to add Authorization header to every request with  token
+    console.log(response.data);
+    localStorage.setItem('authToken', response.data);
+    console.log(response.token);
+  
+  })
+  .catch((error) => {
+    // Authentication failed
+    alert(error.message);
+  });
 
+ 
 }
 
   render() {

@@ -42,10 +42,6 @@ module.exports = [
                     return err.isJoi ? h.response(err.details[0]).takeover() : h.response(err).takeover();
                 }
             }, 
-            auth : {
-                strategy : 'jwt',
-                mode     : 'optional'
-            },
         },
         handler: async (request, h) => {
              try {
@@ -152,12 +148,13 @@ module.exports = [
                 }
                 //create token
             const  expiresIn  =  24  *  60  *  60;
-            const  accessToken  =  jwt.sign({ id:  account.id }, SECRET_KEY, {
+            const  token  =  jwt.sign({ id:  account.id }, SECRET_KEY, {
                 expiresIn:  expiresIn
             });
-               console.log(`token= ${accessToken}`);
-
-              return {accessToken};
+               console.log(`token= ${token}`);
+             //  localStorage.setItem('token', accessToken);
+            return  token;
+           //  return h.response({token: token}).code(201);
             }
         }
     },

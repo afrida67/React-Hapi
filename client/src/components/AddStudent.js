@@ -47,8 +47,11 @@ import axios from 'axios';
         };
 
 
-    axios.post('http://localhost:5000/add', newStudent)
-    .then(res => console.log(res.data))
+    axios.post('/add', newStudent)
+    .then(res => {
+        axios.defaults.headers.common['Authorization'] = res.token;
+        console.log(res.data);
+    })
  
         this.setState({
             username: '',
