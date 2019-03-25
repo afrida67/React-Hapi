@@ -17,6 +17,12 @@ class StudentList extends Component {
         students: []
       };
  
+      logout = () => {
+        localStorage.removeItem('authToken');
+        window.location.href = '/';
+         
+       };
+ 
       componentDidMount() {
         axios.get('http://localhost:5000/')
             .then(response => {
@@ -33,9 +39,9 @@ class StudentList extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="App">
         <h3>Student List</h3>
-              <table className="" style={{ marginTop: 20 }}>
+              <table  id="students">
                     <thead>
                         <tr>
                             <th>Username</th>
@@ -48,6 +54,10 @@ class StudentList extends Component {
                         { this.studentList() }
                     </tbody>
               </table>
+              <br></br>
+         <div className="form-group">
+            <button className="btn btn-primary" onClick={this.logout}>Logout</button>
+          </div> 
       </div>
     )
   }

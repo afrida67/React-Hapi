@@ -128,11 +128,12 @@ module.exports = [
                 mode     : 'optional'
             },
             handler: async (request, h) => {
+
                 let message = 'Invalid username or password';
            
                 const { username, password } = request.payload;
                 if (!username || !password) {
-                    return h.view('home', { message });
+                    //give an error message on front
                 }
         
                 let user = await StudentModel.findOne({
@@ -142,7 +143,7 @@ module.exports = [
                 let account = user && (await bcrypt.compareSync(password, user.password));
 
                 if (!account) {
-                    return h.view('home', { message });
+                     //give an error message on front
                 }
                 //create token
             const  expiresIn  =  24  *  60  *  60;
@@ -150,8 +151,8 @@ module.exports = [
                 expiresIn:  expiresIn
             });
                console.log(`token= ${token}`);
-
-            return  token;
+            //console.log(user.username);
+            return {token, uname: user.username};
            //  return h.response({token: token}).code(201);
             }
         }

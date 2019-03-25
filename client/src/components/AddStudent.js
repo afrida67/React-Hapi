@@ -42,12 +42,6 @@ import axios from 'axios';
          password: e.target.value 
     });
 
-    logout = () => {
-
-       localStorage.removeItem('authToken');
-       window.location.href = '/';
-        
-      };
 
     onSubmit(e) {
         e.preventDefault();
@@ -82,11 +76,7 @@ import axios from 'axios';
     render() {
         return (
         <div>
-
             Sign Up as a new Student<br></br>
-            <div className="form-group">
-            <button className="btn btn-primary" onClick={this.logout}>Logout</button>
-            </div>
             <form onSubmit={this.onSubmit}>
             <div>
                 <label>Username: </label>
@@ -128,8 +118,6 @@ import axios from 'axios';
             <div className="form-group">
                 <input type="submit" value="Add Student" className="btn btn-primary" />
             </div>
-
-
             </form>
       
         </div>
