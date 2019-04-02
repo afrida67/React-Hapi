@@ -8,7 +8,7 @@ class LoginStudent extends Component {
   state = {
       username : '',
       password : '',
-  }
+  };
 
 
     onChangeUsername = (e) => this.setState({
