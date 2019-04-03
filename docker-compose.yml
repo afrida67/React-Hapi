@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  
+       client:
+          container_name: reactclient
+          build: ./client/
+          restart: always
+          ports:
+              - "3000:3000"
+          links:
+              - server
+       
+       server:
+          container_name: hapiserver
+          build: ./server/
+          restart: always
+          ports:
+              - "5000:5000"
+          

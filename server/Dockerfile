@@ -1,3 +1,5 @@
+# server
+
 FROM node:latest
 
 RUN mkdir /server
