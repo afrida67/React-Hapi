@@ -7,15 +7,23 @@ const hapiauthjwt2 = require('hapi-auth-jwt2');
 const StudentModel = require('./models/studentSchema');
 
 const server = hapi.server({
-    host: 'localhost',
+    host: '0.0.0.0',
     port: Number(process.argv[2] || 5000),
     routes: {cors: true}
 });
 
-mongoose.connect('mongodb://localhost:27017/studentdb', { useNewUrlParser: true }, (err) => {
+mongoose
+  .connect(
+    'mongodb+srv://afrida:afrida@cluster0-xzmoh.mongodb.net/studentDB',
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err));
+
+/*mongoose.connect('mongodb://localhost:27017/studentdb', { useNewUrlParser: true }, (err) => {
     if (!err) { console.log('MongoDB Connection Succeeded.') }
     else { console.log(`Error in DB connection : ${err}`)}
-});
+});*/
 
 // bring your own validation function
 const validate = async (decoded, request, h) => {

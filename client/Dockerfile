@@ -1,10 +1,10 @@
 FROM node:latest
 
-RUN mkdir /usr/src/app
+RUN mkdir /client
 
-COPY . /usr/src/app
+COPY . /client
 
-WORKDIR /usr/src//app
+WORKDIR /client
 
 RUN npm install
 
