@@ -2,10 +2,10 @@
   "name": "reacthapi",
   "version": "1.0.0",
   "description": "hapi + react + mongodb + node.js",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": ""
+    "server": "nodemon server.js --prefix server",
+    "client": "npm start --prefix client",
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [
     "react",

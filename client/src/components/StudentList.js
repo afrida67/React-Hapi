@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Student from './TableRow';
 
-const Student = props => (
-  <tr>
-      <td>{props.student.username}</td>
-      <td>{props.student.name}</td>
-      <td>{props.student.email}</td>
-      <td>
-          <Link to={`/edit/${props.student._id}`}>Edit</Link>
-      </td>
-  </tr>
-)
 class StudentList extends Component {
       state = {
         students: []
       };
- 
+
       logout = () => {
         localStorage.removeItem('authToken');
         window.location.href = '/';
-         
        };
  
       componentDidMount() {
@@ -30,7 +19,7 @@ class StudentList extends Component {
             })
             .catch(function (error) {
                 console.log(error);
-            })
+            });
     }
     studentList() {
       return this.state.students.map((currentStudent, i) => {
@@ -55,8 +44,8 @@ class StudentList extends Component {
                     </tbody>
               </table>
               <br></br>
-         <div className="form-group">
-            <button className="btn btn-primary" onClick={this.logout}>Logout</button>
+            <div className="form-group">
+               <button className="btn btn-primary" onClick={this.logout}>Logout</button>
           </div> 
       </div>
     )

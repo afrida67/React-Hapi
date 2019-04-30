@@ -3,9 +3,6 @@ import axios from 'axios';
 
 class EditStudent extends Component {
 
-
-    onSubmit = this.onSubmit.bind(this);
-
     state = {
         username: '',
         name: '',
@@ -46,7 +43,7 @@ class EditStudent extends Component {
     });
 
 
-      onSubmit(e) {
+      onSubmit = (e) => {
         e.preventDefault();
       
         const obj = {

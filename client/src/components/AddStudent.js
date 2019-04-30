@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
  class AddStudent extends Component {
 
-
-    onSubmit = this.onSubmit.bind(this);
-
     state = {
         username: '',
         unamError: '',
@@ -43,7 +40,7 @@ import axios from 'axios';
     });
 
 
-    onSubmit(e) {
+    onSubmit = (e) => {
         e.preventDefault();
 
         console.log(`form submitted: 

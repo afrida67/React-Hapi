@@ -74,6 +74,27 @@ module.exports = [
         } 
     
     },  
+    //delete
+    { 
+        method: 'GET', 
+        path: '/delete/{id}',
+        config: {
+            auth : {
+                strategy : 'jwt',
+                mode     : 'optional'
+                }
+         },
+         handler: async (request, h) => { 
+            try {
+                
+                let student = await StudentModel.findByIdAndDelete({_id:request.params.id});
+                   return h.response(student);
+              
+            } catch (err) {
+                return h.response(err).code(500);
+            }
+        }
+    },
     //update
     { 
         method: 'POST', 
