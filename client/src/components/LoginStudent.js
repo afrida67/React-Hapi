@@ -30,10 +30,11 @@ class LoginStudent extends Component {
     // Set axios config to add Authorization header to every request with  token
     console.log(res.data.token);
     localStorage.setItem('authToken', res.data.token);
+    localStorage.setItem('username', res.data.uname);
     alert(`Successfully logged in as ${res.data.uname}...`);
   
   })
-  .catch((error) => {
+  .catch((err) => {
     // Authentication failed
     alert(`Login Failed. Try again...`);
   });

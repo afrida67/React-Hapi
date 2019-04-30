@@ -16,10 +16,10 @@ import axios from 'axios';
         console.log(`authtoken ${token}`);
 
         axios.get('http://localhost:5000/add')
-        .then(response => {
+        .then(res => {
         })
-        .catch(function(err) {
-            console.log(err)
+        .catch( (err) => {
+            alert(`You have to login first`); 
         });
         
     }
@@ -60,14 +60,13 @@ import axios from 'axios';
 
     axios.post('http://localhost:5000/add', newStudent)
     .then(res => console.log(res.data));
- 
+
         this.setState({
             username: '',
             name: '',
             email: '',
             password: ''
-        })
- 
+        }) 
     }
 
     render() {

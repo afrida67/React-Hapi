@@ -8,7 +8,8 @@ class StudentList extends Component {
       };
 
       logout = () => {
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('authToken','username');
+        localStorage.removeItem('username');
         window.location.href = '/';
        };
  
@@ -17,7 +18,7 @@ class StudentList extends Component {
             .then(response => {
                 this.setState({students: response.data});
             })
-            .catch(function (error) {
+            .catch( (error) => {
                 console.log(error);
             });
     }
@@ -27,16 +28,21 @@ class StudentList extends Component {
       });
   }
   render() {
+    const isLoggedIn = localStorage.getItem('username');
+
     return (
       <div className="App">
         <h3>Student List</h3>
+         {isLoggedIn}
               <table  id="students">
                     <thead>
                         <tr>
                             <th>Username</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Actions</th>
+                            <th >Actions</th>
+                            <th></th>
+
                         </tr>
                     </thead>
                     <tbody>
