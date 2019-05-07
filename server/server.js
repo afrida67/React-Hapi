@@ -2,9 +2,11 @@
 
 const hapi = require('hapi');
 const mongoose = require('mongoose');
-const routes = require('./routes/student');
 const hapiauthjwt2 = require('hapi-auth-jwt2');
+
 const StudentModel = require('./models/studentSchema');
+
+const routes = require('./routes/student');
 
 const server = hapi.server({
     host: 'localhost',

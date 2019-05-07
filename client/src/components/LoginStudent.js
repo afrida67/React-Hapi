@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class LoginStudent extends Component {
 
   state = {
       username : '',
       password : '',
+      loginSuccess: false
   };
 
     onChangeUsername = (e) => this.setState({
@@ -26,15 +28,17 @@ class LoginStudent extends Component {
     username: this.state.username,
     password: this.state.password
   })
-  .then((res) => {
-    // Set axios config to add Authorization header to every request with  token
+  .then(res => {
     console.log(res.data.token);
     localStorage.setItem('authToken', res.data.token);
     localStorage.setItem('username', res.data.uname);
     alert(`Successfully logged in as ${res.data.uname}...`);
-  
+    this.setState({
+       loginSuccess: true
+    })
+
   })
-  .catch((err) => {
+  .catch(err => {
     // Authentication failed
     alert(`Login Failed. Try again...`);
   });
@@ -42,6 +46,10 @@ class LoginStudent extends Component {
 }
 
   render() {
+    if (this.state.loginSuccess === true){
+      return <Redirect to='/add' />
+     }
+
     return (
       <div>
         welcome to login
@@ -65,7 +73,7 @@ class LoginStudent extends Component {
                 />
             </div>
             <div className="form-group">
-                <input type="submit" value="Login" className="btn btn-primary" />
+                <input type="submit" value="login" className="btn btn-primary" />               
             </div>
             </form>
       </div>

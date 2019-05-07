@@ -2,6 +2,7 @@
 const joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const boom = require('boom');
 
 const SECRET_KEY = 'secretkey23456';
 
@@ -38,6 +39,7 @@ module.exports = [
            }
        }
     },
+    //adding new user
     { 
         method: 'POST', 
         path: '/add',
@@ -122,24 +124,25 @@ module.exports = [
             }
         }
     }, 
-     //login
-     {
-        method: 'GET',
-        path: '/login',
-        options: {
-            auth : {
-                strategy : 'jwt',
-                mode     : 'optional'
-            }
-            },
-            handler: async (request, h) => {
-
-                if (request.auth.isAuthenticated) {
-                    return h.redirect('/');     
+         //login
+         {
+            method: 'GET',
+            path: '/login',
+            options: {
+                auth : {
+                    strategy : 'jwt',
+                    mode     : 'optional'
                 }
-               //return error msg
-            }
-    },
+                },
+                handler: async (request, h) => {
+    
+                    if (request.auth.isAuthenticated) {
+                        return h.redirect('/');     
+                    }
+                   //return error msg
+                }
+        },
+    // login
     {
         method: 'POST',
         path: '/login',
@@ -149,32 +152,28 @@ module.exports = [
                 mode     : 'optional'
             },
             handler: async (request, h) => {
-
-                let message = 'Invalid username or password';
-           
-                const { username, password } = request.payload;
-                if (!username || !password) {
-                    //give an error message on front
-                }
+                try {
+                    const { username, password } = request.payload;
         
-                let user = await StudentModel.findOne({
-                  username
-                });
-               // console.log(user);
-                let account = user && (await bcrypt.compareSync(password, user.password));
-
-                if (!account) {
-                     //give an error message on front
+                    let user = await StudentModel.findOne({ username });
+                   // console.log(user);
+                    let account = user && (await bcrypt.compareSync(password, user.password));
+    
+                    if (account) {
+                        const  expiresIn  =  24  *  60  *  60;
+                        const  token  =  jwt.sign({ id:  account.id }, SECRET_KEY, {
+                            expiresIn:  expiresIn
+                        });
+                         console.log(`token= ${token}`);
+                        //console.log(user.username);
+                        return {token, uname: user.username};
+                    } else {
+                        return boom.unauthorized('wrong informations'); 
+                    }
+                } catch (err) {
+                    return h.response(err).code(500); 
                 }
-                //create token
-            const  expiresIn  =  24  *  60  *  60;
-            const  token  =  jwt.sign({ id:  account.id }, SECRET_KEY, {
-                expiresIn:  expiresIn
-            });
-               console.log(`token= ${token}`);
-            //console.log(user.username);
-            return {token, uname: user.username};
-           //  return h.response({token: token}).code(201);
+            
             }
         }
     },

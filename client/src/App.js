@@ -16,11 +16,11 @@ class App extends Component {
             <h1>Student App</h1>
                 <Link to="/">List</Link>
                 <br></br>
-                <Link to="/add">Add</Link>
+              {/*  <Link to="/add">Add</Link> */}
                 <br></br>
                 <Link to="/login">Login</Link>
               <Route path="/" exact component={StudentList} />
-              <Route path="/add" exact component={AddStudent} />
+               <Route path="/add" exact component={AddStudent} /> 
               <Route path="/edit/:id" component={EditStudent} />
               <Route path="/login" component={LoginStudent} />
         </div>

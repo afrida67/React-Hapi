@@ -18,8 +18,8 @@ import axios from 'axios';
         axios.get('http://localhost:5000/add')
         .then(res => {
         })
-        .catch( (err) => {
-            alert(`You have to login first`); 
+        .catch( err => {
+            console.log(err);
         });
         
     }
